@@ -6,6 +6,7 @@ inspect and test.
 """
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin, TransformerMixin
+from ml_algorithms.cluster import KMeans
 from ml_algorithms.exceptions import NotFittedError
 from ml_algorithms.linear_model import LinearRegression, LogisticRegression
 from ml_algorithms.naive_bayes import GaussianNB
@@ -14,6 +15,7 @@ from ml_algorithms.neighbors import KNeighborsClassifier
 __all__ = [
     "BaseEstimator",
     "GaussianNB",
+    "KMeans",
     "KNeighborsClassifier",
     "LinearRegression",
     "LogisticRegression",
