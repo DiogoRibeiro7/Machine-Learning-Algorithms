@@ -26,8 +26,9 @@ def test_exact_multivariate_fit_recovers_coefficients() -> None:
     estimator = LinearRegression().fit(X, y)
 
     assert estimator.intercept_ == pytest.approx(expected_intercept)
-    np.testing.assert_allclose(estimator.coef_, expected_coef, atol=1e-12)
-    np.testing.assert_allclose(estimator.predict(X), y, atol=1e-12)
+    assert estimator.coef_ is not None
+    assert estimator.coef_.tolist() == pytest.approx(expected_coef.tolist(), abs=1e-12)
+    assert estimator.predict(X).tolist() == pytest.approx(y.tolist(), abs=1e-12)
     assert estimator.residual_sum_squares_ == pytest.approx(0.0, abs=1e-24)
     assert estimator.rank_ == 3
 
@@ -39,8 +40,9 @@ def test_fit_without_intercept() -> None:
     estimator = LinearRegression(fit_intercept=False).fit(X, y)
 
     assert estimator.intercept_ == 0.0
-    np.testing.assert_allclose(estimator.coef_, [4.0], atol=1e-12)
-    np.testing.assert_allclose(estimator.predict([[5.0]]), [20.0], atol=1e-12)
+    assert estimator.coef_ is not None
+    assert estimator.coef_.tolist() == pytest.approx([4.0], abs=1e-12)
+    assert estimator.predict([[5.0]]).tolist() == pytest.approx([20.0], abs=1e-12)
 
 
 def test_rank_deficient_design_returns_valid_least_squares_solution() -> None:
@@ -59,7 +61,7 @@ def test_rank_deficient_design_returns_valid_least_squares_solution() -> None:
 
     assert estimator.rank_ is not None
     assert estimator.rank_ < 3
-    np.testing.assert_allclose(estimator.predict(X), y, atol=1e-12)
+    assert estimator.predict(X).tolist() == pytest.approx(y.tolist(), abs=1e-12)
     assert estimator.residual_sum_squares_ == pytest.approx(0.0, abs=1e-24)
 
 
@@ -70,8 +72,9 @@ def test_refit_replaces_previous_parameters() -> None:
     estimator.fit([[0.0], [1.0], [2.0]], [3.0, 5.0, 7.0])
 
     assert first_coef is not None
-    np.testing.assert_allclose(first_coef, [1.0], atol=1e-12)
-    np.testing.assert_allclose(estimator.coef_, [2.0], atol=1e-12)
+    assert first_coef.tolist() == pytest.approx([1.0], abs=1e-12)
+    assert estimator.coef_ is not None
+    assert estimator.coef_.tolist() == pytest.approx([2.0], abs=1e-12)
     assert estimator.intercept_ == pytest.approx(3.0)
 
 
