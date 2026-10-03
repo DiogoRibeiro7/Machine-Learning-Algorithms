@@ -7,11 +7,12 @@ inspect and test.
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin, TransformerMixin
 from ml_algorithms.exceptions import NotFittedError
-from ml_algorithms.linear_model import LinearRegression
+from ml_algorithms.linear_model import LinearRegression, LogisticRegression
 
 __all__ = [
     "BaseEstimator",
     "LinearRegression",
+    "LogisticRegression",
     "NotFittedError",
     "PredictorMixin",
     "TransformerMixin",
