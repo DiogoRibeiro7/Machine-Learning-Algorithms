@@ -6,5 +6,12 @@ import ml_algorithms
 
 
 def test_package_imports() -> None:
-    """The top-level package should import successfully."""
-    assert ml_algorithms.__all__ == []
+    """The top-level package should expose its core estimator API."""
+    expected_exports = {
+        "BaseEstimator",
+        "NotFittedError",
+        "PredictorMixin",
+        "TransformerMixin",
+    }
+
+    assert expected_exports <= set(ml_algorithms.__all__)
