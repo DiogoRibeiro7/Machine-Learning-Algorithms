@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import cast
-
 import numpy as np
 from numpy.typing import ArrayLike
 
@@ -42,7 +40,7 @@ def validate_features(
     if ensure_finite and not bool(np.isfinite(array).all()):
         raise ValueError("X must contain only finite values.")
 
-    return cast(FeatureMatrix, array)
+    return array
 
 
 def validate_target(y: ArrayLike, *, n_samples: int | None = None) -> TargetVector:
@@ -61,7 +59,7 @@ def validate_target(y: ArrayLike, *, n_samples: int | None = None) -> TargetVect
             f"{n_samples} and {array.shape[0]}."
         )
 
-    return cast(TargetVector, array)
+    return array
 
 
 def validate_X_y(X: ArrayLike, y: ArrayLike) -> tuple[FeatureMatrix, TargetVector]:
