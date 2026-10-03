@@ -23,7 +23,7 @@ Implement small, readable estimators with a consistent API:
 - [x] Linear regression
 - [x] Logistic regression
 - [x] k-nearest neighbours
-- [ ] Gaussian Naive Bayes
+- [x] Gaussian Naive Bayes
 - [ ] k-means
 - [ ] PCA
 - [ ] linear SVM
