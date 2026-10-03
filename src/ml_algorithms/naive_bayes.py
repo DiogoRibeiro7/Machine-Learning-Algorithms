@@ -100,11 +100,7 @@ class GaussianNB(BaseEstimator, PredictorMixin):
     def _joint_log_likelihood(self, X: ArrayLike) -> NDArray[np.float64]:
         """Compute log P(class) + log P(features | class)."""
         features = self._validate_inference_features(X)
-        if (
-            self.class_prior_ is None
-            or self.theta_ is None
-            or self.var_ is None
-        ):
+        if self.class_prior_ is None or self.theta_ is None or self.var_ is None:
             raise RuntimeError("GaussianNB fitted parameters are unavailable.")
 
         n_classes = self.class_prior_.shape[0]
@@ -115,8 +111,7 @@ class GaussianNB(BaseEstimator, PredictorMixin):
             mean = self.theta_[class_index]
             log_prior = np.log(self.class_prior_[class_index])
             log_density = -0.5 * np.sum(
-                np.log(2.0 * np.pi * variance)
-                + ((features - mean) ** 2) / variance,
+                np.log(2.0 * np.pi * variance) + ((features - mean) ** 2) / variance,
                 axis=1,
             )
             joint[:, class_index] = log_prior + log_density
