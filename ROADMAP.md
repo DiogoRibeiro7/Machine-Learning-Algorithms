@@ -21,7 +21,7 @@ The repository should prioritize mathematical clarity, NumPy-based implementatio
 Implement small, readable estimators with a consistent API:
 
 - [x] Linear regression
-- [ ] Logistic regression
+- [x] Logistic regression
 - [ ] k-nearest neighbours
 - [ ] Gaussian Naive Bayes
 - [ ] k-means
