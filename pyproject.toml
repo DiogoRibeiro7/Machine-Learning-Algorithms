@@ -1,0 +1,47 @@
+[project]
+name = "machine-learning-algorithms"
+version = "0.1.0"
+description = "Machine-learning algorithms implemented from first principles with NumPy."
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+license = "GPL-3.0-only"
+authors = [
+    { name = "Diogo Ribeiro" },
+]
+keywords = [
+    "machine-learning",
+    "numpy",
+    "algorithms",
+    "education",
+    "from-scratch",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=2.0,<3.0",
+]
+
+[project.urls]
+Repository = "https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms"
+Issues = "https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms/issues"
+
+[tool.poetry]
+packages = [
+    { include = "ml_algorithms", from = "src" },
+]
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.0"
+ruff = ">=0.8"
+mypy = ">=1.13"
+pre-commit = ">=4.0"
+
+[build-system]
+requires = ["poetry-core>=2.0,<3.0"]
+build-backend = "poetry.core.masonry.api"
