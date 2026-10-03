@@ -25,7 +25,7 @@ Implement small, readable estimators with a consistent API:
 - [x] k-nearest neighbours
 - [x] Gaussian Naive Bayes
 - [x] k-means
-- [ ] PCA
+- [x] PCA
 - [ ] linear SVM
 
 Each implementation should include:
