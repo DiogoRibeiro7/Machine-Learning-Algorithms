@@ -182,7 +182,8 @@ class LogisticRegression(BaseEstimator, PredictorMixin):
         n_samples = float(design.shape[0])
         n_iter = 0
 
-        for n_iter in range(1, self.max_iter + 1):
+        for _ in range(self.max_iter):
+            n_iter += 1
             logits = design @ theta
             probabilities = _stable_sigmoid(logits)
             gradient = design.T @ (probabilities - binary) / n_samples
