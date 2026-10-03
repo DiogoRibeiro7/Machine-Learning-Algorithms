@@ -9,12 +9,12 @@ The repository should prioritize mathematical clarity, NumPy-based implementatio
 ## Phase 1 — Repository foundation
 
 - [ ] Move the default development workflow from `master` to `main`
-- [ ] Introduce a Python package under `src/`
-- [ ] Add `pyproject.toml` with Python 3.12 support
-- [ ] Add Ruff, mypy, pytest and pre-commit
-- [ ] Add GitHub Actions for linting, typing and tests
+- [x] Introduce a Python package under `src/`
+- [x] Add `pyproject.toml` with Python 3.12 support
+- [x] Add Ruff, mypy, pytest and pre-commit
+- [x] Add GitHub Actions for linting, typing and tests
 - [ ] Add contribution and development documentation
-- [ ] Define repository scope and remove or relocate unrelated notebooks
+- [x] Define repository scope and remove or relocate unrelated notebooks
 
 ## Phase 2 — Core algorithms
 
