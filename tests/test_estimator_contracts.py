@@ -10,7 +10,7 @@ from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms import BaseEstimator, NotFittedError, PredictorMixin
 from ml_algorithms._random import resolve_random_state
-from ml_algorithms._validation import validate_X_y, validate_features
+from ml_algorithms._validation import validate_features, validate_X_y
 
 
 class MeanRegressor(BaseEstimator, PredictorMixin):
