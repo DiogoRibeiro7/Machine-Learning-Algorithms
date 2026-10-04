@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from ml_algorithms import NotFittedError, PCA
+from ml_algorithms import PCA, NotFittedError
 
 
 def test_single_component_matches_known_axis() -> None:
@@ -36,7 +36,7 @@ def test_full_components_reconstruct_original_data() -> None:
     estimator = PCA(n_components=3).fit(X)
     reconstructed = estimator.inverse_transform(estimator.transform(X))
 
-    assert reconstructed.tolist() == pytest.approx(X.tolist(), abs=1e-12)
+    assert bool(np.allclose(reconstructed, X, atol=1e-12, rtol=0.0))
 
 
 def test_full_explained_variance_ratio_sums_to_one() -> None:
@@ -68,6 +68,7 @@ def test_constant_data_has_zero_explained_variance_ratios() -> None:
     assert estimator.explained_variance_ratio_ is not None
     assert estimator.explained_variance_.tolist() == pytest.approx([0.0, 0.0])
     assert estimator.explained_variance_ratio_.tolist() == pytest.approx([0.0, 0.0])
+    assert estimator.components_ is not None
     assert bool(np.isfinite(estimator.components_).all())
 
 
