@@ -114,10 +114,7 @@ class LinearSVM(BaseEstimator, PredictorMixin):
                     * (active_design.T @ (active_target * residual))
                 )
                 hessian += (
-                    2.0
-                    * self.C
-                    / features.shape[0]
-                    * (active_design.T @ active_design)
+                    2.0 * self.C / features.shape[0] * (active_design.T @ active_design)
                 )
 
             step, _, _, _ = np.linalg.lstsq(hessian, gradient, rcond=None)
