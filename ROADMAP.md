@@ -13,7 +13,7 @@ The repository should prioritize mathematical clarity, NumPy-based implementatio
 - [x] Add `pyproject.toml` with Python 3.12 support
 - [x] Add Ruff, mypy, pytest and pre-commit
 - [x] Add GitHub Actions for linting, typing and tests
-- [ ] Add contribution and development documentation
+- [x] Add contribution and development documentation
 - [x] Define repository scope and remove or relocate unrelated notebooks
 
 ## Phase 2 — Core algorithms
@@ -47,12 +47,12 @@ Each implementation should include:
 
 ## Phase 4 — Documentation
 
-- [ ] MkDocs Material site
-- [ ] Mathematical notes for each algorithm
-- [ ] API reference
-- [ ] Reproducible examples
-- [ ] Design notes explaining implementation choices and numerical trade-offs
-- [ ] GitHub Pages deployment
+- [x] MkDocs Material site
+- [x] Mathematical notes for each algorithm
+- [x] API reference
+- [x] Reproducible examples
+- [x] Design notes explaining implementation choices and numerical trade-offs
+- [x] GitHub Pages deployment
 
 ## Phase 5 — Quality and releases
 
