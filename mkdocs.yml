@@ -1,0 +1,103 @@
+site_name: Machine Learning Algorithms
+site_description: Machine-learning algorithms implemented from first principles with NumPy.
+site_url: https://diogoribeiro7.github.io/Machine-Learning-Algorithms/
+repo_url: https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms
+repo_name: DiogoRibeiro7/Machine-Learning-Algorithms
+edit_uri: edit/master/docs/
+
+strict: true
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Algorithms:
+      - Overview: algorithms/index.md
+      - Linear regression: algorithms/linear-regression.md
+      - Logistic regression: algorithms/logistic-regression.md
+      - k-nearest neighbours: algorithms/k-nearest-neighbours.md
+      - Gaussian Naive Bayes: algorithms/gaussian-naive-bayes.md
+      - k-means: algorithms/k-means.md
+      - PCA: algorithms/pca.md
+      - Linear SVM: algorithms/linear-svm.md
+  - Architecture: architecture.md
+  - Examples: examples.md
+  - API reference: api-reference.md
+  - Development:
+      - Contributing: development/contributing.md
+      - Quality checks: development/quality.md
+  - Roadmap: roadmap.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - src
+          options:
+            docstring_style: numpy
+            members_order: source
+            show_root_heading: true
+            show_source: false
+            show_signature_annotations: true
+            separate_signature: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path:
+        - .
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/DiogoRibeiro7
