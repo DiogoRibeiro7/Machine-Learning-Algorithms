@@ -12,6 +12,7 @@ from ml_algorithms.exceptions import NotFittedError
 from ml_algorithms.linear_model import LinearRegression, LogisticRegression
 from ml_algorithms.naive_bayes import GaussianNB
 from ml_algorithms.neighbors import KNeighborsClassifier
+from ml_algorithms.svm import LinearSVM
 
 __all__ = [
     "PCA",
@@ -20,6 +21,7 @@ __all__ = [
     "KMeans",
     "KNeighborsClassifier",
     "LinearRegression",
+    "LinearSVM",
     "LogisticRegression",
     "NotFittedError",
     "PredictorMixin",
