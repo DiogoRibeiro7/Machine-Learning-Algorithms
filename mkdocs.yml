@@ -3,7 +3,7 @@ site_description: Machine-learning algorithms implemented from first principles 
 site_url: https://diogoribeiro7.github.io/Machine-Learning-Algorithms/
 repo_url: https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms
 repo_name: DiogoRibeiro7/Machine-Learning-Algorithms
-edit_uri: edit/master/docs/
+edit_uri: edit/main/docs/
 
 strict: true
 
