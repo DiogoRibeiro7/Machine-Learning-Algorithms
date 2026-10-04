@@ -8,7 +8,7 @@ The repository should prioritize mathematical clarity, NumPy-based implementatio
 
 ## Phase 1 — Repository foundation
 
-- [ ] Move the default development workflow from `master` to `main`
+- [x] Move the default development workflow from `master` to `main`
 - [x] Introduce a Python package under `src/`
 - [x] Add `pyproject.toml` with Python 3.12 support
 - [x] Add Ruff, mypy, pytest and pre-commit
