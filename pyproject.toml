@@ -32,6 +32,7 @@ dependencies = [
 [project.urls]
 Repository = "https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms"
 Issues = "https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms/issues"
+Documentation = "https://diogoribeiro7.github.io/Machine-Learning-Algorithms/"
 
 [tool.poetry]
 packages = [
@@ -43,6 +44,10 @@ pytest = ">=8.0"
 ruff = ">=0.16"
 mypy = ">=1.13"
 pre-commit = ">=4.6"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs-material = ">=9.6"
+mkdocstrings = { version = ">=0.30", extras = ["python"] }
 
 [tool.ruff]
 target-version = "py312"
