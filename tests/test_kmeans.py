@@ -32,9 +32,13 @@ def test_random_state_is_reproducible() -> None:
 
     assert first.cluster_centers_ is not None
     assert second.cluster_centers_ is not None
-    assert first.cluster_centers_.tolist() == pytest.approx(
-        second.cluster_centers_.tolist(),
-        abs=1e-12,
+    assert bool(
+        np.allclose(
+            first.cluster_centers_,
+            second.cluster_centers_,
+            atol=1e-12,
+            rtol=0.0,
+        )
     )
     assert first.labels_ is not None
     assert second.labels_ is not None
