@@ -41,7 +41,7 @@ Each implementation should include:
 
 - [x] Gradient descent utilities
 - [x] Adaptive optimization, including AdaGrad
-- [ ] Stable linear algebra helpers
+- [x] Stable linear algebra helpers
 - [ ] Input validation and deterministic random-state handling
 - [ ] Common metrics
 
