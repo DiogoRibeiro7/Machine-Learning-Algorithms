@@ -34,7 +34,11 @@ The public package surface is intentionally small.
 
 ::: ml_algorithms.optimization.gradient_descent
 
+::: ml_algorithms.optimization.adagrad
+
 ::: ml_algorithms.optimization.GradientDescentResult
+
+::: ml_algorithms.optimization.AdaGradResult
 
 ::: ml_algorithms.optimization.OptimizationStep
 
