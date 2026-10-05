@@ -9,6 +9,7 @@ from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin, TransformerMixin
 from ml_algorithms._random import resolve_random_state
+from ml_algorithms.linalg import pairwise_distances, pairwise_squared_distances
 
 
 class KMeans(BaseEstimator, PredictorMixin, TransformerMixin):
@@ -139,7 +140,7 @@ class KMeans(BaseEstimator, PredictorMixin, TransformerMixin):
         first_index = int(rng.integers(features.shape[0]))
         centers[0] = features[first_index]
 
-        closest_sq = np.sum((features - centers[0]) ** 2, axis=1)
+        closest_sq = pairwise_squared_distances(features, centers[[0]])[:, 0]
         for center_index in range(1, self.n_clusters):
             total = float(np.sum(closest_sq))
             if total <= 0.0:
@@ -150,7 +151,7 @@ class KMeans(BaseEstimator, PredictorMixin, TransformerMixin):
                 chosen = int(rng.choice(features.shape[0], p=probabilities))
 
             centers[center_index] = features[chosen]
-            new_sq = np.sum((features - centers[center_index]) ** 2, axis=1)
+            new_sq = pairwise_squared_distances(features, centers[[center_index]])[:, 0]
             closest_sq = np.minimum(closest_sq, new_sq)
 
         return centers
@@ -198,22 +199,12 @@ class KMeans(BaseEstimator, PredictorMixin, TransformerMixin):
         self.converged_ = None
 
 
-def _pairwise_distances(
-    features: NDArray[np.float64],
-    centers: NDArray[np.float64],
-) -> NDArray[np.float64]:
-    """Return Euclidean distances between samples and centroids."""
-    differences = features[:, None, :] - centers[None, :, :]
-    squared = np.sum(differences * differences, axis=2)
-    return np.sqrt(squared)
-
-
 def _assign_labels(
     features: NDArray[np.float64],
     centers: NDArray[np.float64],
 ) -> NDArray[np.int64]:
     """Return nearest-centroid labels."""
-    distances = _pairwise_distances(features, centers)
+    distances = pairwise_distances(features, centers)
     return np.argmin(distances, axis=1).astype(np.int64, copy=False)
 
 
