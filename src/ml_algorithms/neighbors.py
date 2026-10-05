@@ -8,7 +8,7 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin
-from ml_algorithms._validation import validate_X_y
+from ml_algorithms._validation import validate_X_y, validate_positive_integer
 from ml_algorithms.linalg import pairwise_distances
 from ml_algorithms.types import FeatureMatrix
 
@@ -23,10 +23,7 @@ class KNeighborsClassifier(BaseEstimator, PredictorMixin):
     """
 
     def __init__(self, *, n_neighbors: int = 5) -> None:
-        if isinstance(n_neighbors, bool) or not isinstance(n_neighbors, int):
-            raise TypeError("n_neighbors must be an integer.")
-        if n_neighbors < 1:
-            raise ValueError("n_neighbors must be at least 1.")
+        n_neighbors = validate_positive_integer(n_neighbors, name="n_neighbors")
 
         super().__init__()
         self.n_neighbors = n_neighbors
