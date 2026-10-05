@@ -9,6 +9,7 @@ from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin
 from ml_algorithms._validation import validate_X_y
+from ml_algorithms.linalg import least_squares
 
 
 class LinearRegression(BaseEstimator, PredictorMixin):
@@ -61,14 +62,8 @@ class LinearRegression(BaseEstimator, PredictorMixin):
         else:
             design = features
 
-        solution, _, rank, singular_values = np.linalg.lstsq(
-            design,
-            target_array,
-            rcond=None,
-        )
-
-        fitted_values = design @ solution
-        residuals = target_array - fitted_values
+        least_squares_result = least_squares(design, target_array)
+        solution = least_squares_result.solution
 
         if self.fit_intercept:
             self.intercept_ = float(solution[0])
@@ -77,12 +72,9 @@ class LinearRegression(BaseEstimator, PredictorMixin):
             self.intercept_ = 0.0
             self.coef_ = np.asarray(solution, dtype=np.float64).copy()
 
-        self.rank_ = int(rank)
-        self.singular_values_ = np.asarray(
-            singular_values,
-            dtype=np.float64,
-        ).copy()
-        self.residual_sum_squares_ = float(residuals @ residuals)
+        self.rank_ = least_squares_result.rank
+        self.singular_values_ = least_squares_result.singular_values.copy()
+        self.residual_sum_squares_ = least_squares_result.residual_sum_squares
 
         self._mark_fitted(n_features=features.shape[1])
         return self
@@ -193,7 +185,7 @@ class LogisticRegression(BaseEstimator, PredictorMixin):
             hessian = design.T @ (design * weights[:, None]) / n_samples
             hessian = hessian + np.diag(penalty)
 
-            step, _, _, _ = np.linalg.lstsq(hessian, gradient, rcond=None)
+            step = least_squares(hessian, gradient).solution
             current_loss = _logistic_loss(design, binary, theta, penalty)
 
             scale = 1.0

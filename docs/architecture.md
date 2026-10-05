@@ -49,6 +49,10 @@ Calling an inference method before fitting raises `NotFittedError`.
 
 `optimization.py` contains small reusable numerical primitives. These utilities expose iteration diagnostics explicitly and stay separate from estimator abstractions so the underlying update rules remain visible.
 
+### Linear algebra
+
+`linalg.py` centralizes only repeated numerical contracts: least-squares solves with diagnostics, pairwise Euclidean distances, and deterministic sign orientation for decomposition vectors. Algorithm-specific matrix constructions remain in their estimators.
+
 ## Algorithm modules
 
 | Module | Main estimator |

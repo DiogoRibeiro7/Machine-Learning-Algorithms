@@ -42,6 +42,18 @@ The public package surface is intentionally small.
 
 ::: ml_algorithms.optimization.OptimizationStep
 
+## Linear algebra
+
+::: ml_algorithms.linalg.least_squares
+
+::: ml_algorithms.linalg.LeastSquaresResult
+
+::: ml_algorithms.linalg.pairwise_distances
+
+::: ml_algorithms.linalg.pairwise_squared_distances
+
+::: ml_algorithms.linalg.canonicalize_row_signs
+
 ## Common estimator contracts
 
 ::: ml_algorithms.BaseEstimator
