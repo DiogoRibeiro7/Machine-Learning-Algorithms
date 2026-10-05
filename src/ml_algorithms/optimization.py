@@ -8,7 +8,10 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
-from ml_algorithms._validation import validate_positive_integer, validate_positive_real
+from ml_algorithms._validation import (
+    validate_positive_integer,
+    validate_positive_real,
+)
 
 type Objective = Callable[[NDArray[np.float64]], float]
 type Gradient = Callable[[NDArray[np.float64]], ArrayLike]
