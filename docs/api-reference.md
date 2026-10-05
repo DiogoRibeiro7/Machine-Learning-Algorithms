@@ -30,6 +30,14 @@ The public package surface is intentionally small.
 
 ::: ml_algorithms.LinearSVM
 
+## Numerical optimization
+
+::: ml_algorithms.optimization.gradient_descent
+
+::: ml_algorithms.optimization.GradientDescentResult
+
+::: ml_algorithms.optimization.OptimizationStep
+
 ## Common estimator contracts
 
 ::: ml_algorithms.BaseEstimator
