@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from numpy.typing import NDArray
 
-from ml_algorithms.optimization import gradient_descent
+from ml_algorithms.optimization import adagrad, gradient_descent
 
 
 def test_gradient_descent_solves_one_dimensional_quadratic() -> None:
@@ -139,3 +139,69 @@ def test_rejects_invalid_configuration() -> None:
         gradient_descent(objective, gradient, [1.0], tol=0.0)
     with pytest.raises(ValueError, match="one-dimensional"):
         gradient_descent(objective, gradient, [[1.0]], tol=1e-8)
+
+
+def test_adagrad_solves_one_dimensional_quadratic() -> None:
+    def objective(theta: NDArray[np.float64]) -> float:
+        return float((theta[0] - 3.0) ** 2)
+
+    def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
+        return np.array([2.0 * (theta[0] - 3.0)])
+
+    result = adagrad(
+        objective,
+        gradient,
+        [10.0],
+        learning_rate=2.0,
+        max_iter=500,
+        tol=1e-8,
+    )
+
+    assert result.converged is True
+    assert result.parameters.tolist() == pytest.approx([3.0], abs=1e-7)
+    assert result.accumulated_squared_gradients.shape == (1,)
+    assert result.accumulated_squared_gradients[0] > 0.0
+    assert result.n_iter == len(result.history)
+
+
+def test_adagrad_handles_anisotropic_quadratic_better_than_fixed_rate() -> None:
+    matrix = np.array([[100.0, 0.0], [0.0, 1.0]])
+
+    def objective(theta: NDArray[np.float64]) -> float:
+        return float(0.5 * theta @ matrix @ theta)
+
+    def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
+        return np.asarray(matrix @ theta, dtype=np.float64)
+
+    initial = np.array([10.0, 10.0])
+
+    fixed = gradient_descent(
+        objective,
+        gradient,
+        initial,
+        learning_rate=0.01,
+        max_iter=200,
+        tol=1e-12,
+    )
+    adaptive = adagrad(
+        objective,
+        gradient,
+        initial,
+        learning_rate=2.0,
+        max_iter=200,
+        tol=1e-12,
+    )
+
+    assert adaptive.objective < fixed.objective
+    assert np.linalg.norm(adaptive.parameters) < np.linalg.norm(fixed.parameters)
+
+
+def test_adagrad_rejects_invalid_epsilon() -> None:
+    def objective(theta: NDArray[np.float64]) -> float:
+        return float(theta @ theta)
+
+    def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
+        return 2.0 * theta
+
+    with pytest.raises(ValueError, match="epsilon"):
+        adagrad(objective, gradient, [1.0], epsilon=0.0)
