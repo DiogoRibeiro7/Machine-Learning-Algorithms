@@ -8,6 +8,7 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, TransformerMixin
+from ml_algorithms.linalg import canonicalize_row_signs
 
 
 class PCA(BaseEstimator, TransformerMixin):
@@ -64,7 +65,7 @@ class PCA(BaseEstimator, TransformerMixin):
             full_matrices=False,
         )
 
-        components = _canonicalize_component_signs(right_vectors)
+        components = canonicalize_row_signs(right_vectors)
         all_explained_variance = singular_values**2 / (n_samples - 1)
         total_variance = float(np.sum(all_explained_variance))
         if total_variance > 0.0:
@@ -128,18 +129,6 @@ class PCA(BaseEstimator, TransformerMixin):
         self.explained_variance_ratio_ = None
         self.singular_values_ = None
         self.n_samples_seen_ = None
-
-
-def _canonicalize_component_signs(
-    components: NDArray[np.float64],
-) -> NDArray[np.float64]:
-    """Choose deterministic signs for otherwise sign-indeterminate components."""
-    oriented = components.copy()
-    for row in oriented:
-        pivot = int(np.argmax(np.abs(row)))
-        if row[pivot] < 0.0:
-            row *= -1.0
-    return oriented
 
 
 def _validate_component_coordinates(
