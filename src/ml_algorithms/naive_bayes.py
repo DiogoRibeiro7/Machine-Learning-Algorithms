@@ -8,7 +8,7 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin
-from ml_algorithms._validation import validate_X_y
+from ml_algorithms._validation import validate_X_y, validate_positive_real
 
 
 class GaussianNB(BaseEstimator, PredictorMixin):
@@ -22,15 +22,13 @@ class GaussianNB(BaseEstimator, PredictorMixin):
     """
 
     def __init__(self, *, var_smoothing: float = 1e-9) -> None:
-        if isinstance(var_smoothing, bool) or not isinstance(
-            var_smoothing, (int, float)
-        ):
-            raise TypeError("var_smoothing must be a real number.")
-        if var_smoothing <= 0.0:
-            raise ValueError("var_smoothing must be positive.")
+        var_smoothing = validate_positive_real(
+            var_smoothing,
+            name="var_smoothing",
+        )
 
         super().__init__()
-        self.var_smoothing = float(var_smoothing)
+        self.var_smoothing = var_smoothing
         self.classes_: NDArray[Any] | None = None
         self.class_count_: NDArray[np.int64] | None = None
         self.class_prior_: NDArray[np.float64] | None = None
