@@ -40,7 +40,7 @@ def test_gradient_descent_solves_multivariate_quadratic() -> None:
         return float(0.5 * error @ matrix @ error)
 
     def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
-        return matrix @ (theta - optimum)
+        return np.asarray(matrix @ (theta - optimum), dtype=np.float64)
 
     result = gradient_descent(
         objective,
