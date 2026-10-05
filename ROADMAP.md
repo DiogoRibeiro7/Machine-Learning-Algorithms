@@ -40,7 +40,7 @@ Each implementation should include:
 ## Phase 3 — Numerical foundations
 
 - [x] Gradient descent utilities
-- [ ] Adaptive optimization, including AdaGrad
+- [x] Adaptive optimization, including AdaGrad
 - [ ] Stable linear algebra helpers
 - [ ] Input validation and deterministic random-state handling
 - [ ] Common metrics

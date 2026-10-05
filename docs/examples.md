@@ -12,6 +12,7 @@ Maintained examples live in `notebooks/examples/`. Each notebook imports the pac
 | PCA | [pca.ipynb](https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms/blob/main/notebooks/examples/pca.ipynb) |
 | Linear SVM | [linear-svm.ipynb](https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms/blob/main/notebooks/examples/linear-svm.ipynb) |
 | Gradient descent | [gradient-descent.ipynb](https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms/blob/main/notebooks/examples/gradient-descent.ipynb) |
+| AdaGrad | [adagrad.ipynb](https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms/blob/main/notebooks/examples/adagrad.ipynb) |
 
 ## Example policy
 

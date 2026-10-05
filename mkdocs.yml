@@ -51,6 +51,7 @@ nav:
       - Linear SVM: algorithms/linear-svm.md
   - Numerical foundations:
       - Gradient descent: numerics/gradient-descent.md
+      - AdaGrad: numerics/adagrad.md
   - Architecture: architecture.md
   - Examples: examples.md
   - API reference: api-reference.md
