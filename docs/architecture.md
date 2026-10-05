@@ -45,6 +45,10 @@ This is intentionally smaller than scikit-learn's estimator protocol. The reposi
 
 Calling an inference method before fitting raises `NotFittedError`.
 
+### Optimization
+
+`optimization.py` contains small reusable numerical primitives. These utilities expose iteration diagnostics explicitly and stay separate from estimator abstractions so the underlying update rules remain visible.
+
 ## Algorithm modules
 
 | Module | Main estimator |
