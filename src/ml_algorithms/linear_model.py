@@ -8,7 +8,12 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin
-from ml_algorithms._validation import validate_X_y
+from ml_algorithms._validation import (
+    validate_X_y,
+    validate_non_negative_real,
+    validate_positive_integer,
+    validate_positive_real,
+)
 from ml_algorithms.linalg import least_squares
 
 
@@ -123,18 +128,15 @@ class LogisticRegression(BaseEstimator, PredictorMixin):
     ) -> None:
         if not isinstance(fit_intercept, bool):
             raise TypeError("fit_intercept must be a boolean.")
-        if l2 < 0.0:
-            raise ValueError("l2 must be non-negative.")
-        if max_iter < 1:
-            raise ValueError("max_iter must be at least 1.")
-        if tol <= 0.0:
-            raise ValueError("tol must be positive.")
+        l2 = validate_non_negative_real(l2, name="l2")
+        max_iter = validate_positive_integer(max_iter, name="max_iter")
+        tol = validate_positive_real(tol, name="tol")
 
         super().__init__()
         self.fit_intercept = fit_intercept
-        self.l2 = float(l2)
-        self.max_iter = int(max_iter)
-        self.tol = float(tol)
+        self.l2 = l2
+        self.max_iter = max_iter
+        self.tol = tol
         self.coef_: NDArray[np.float64] | None = None
         self.intercept_: float | None = None
         self.classes_: NDArray[np.int64] | None = None
