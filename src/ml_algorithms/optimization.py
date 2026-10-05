@@ -220,6 +220,7 @@ def adagrad(
         history=tuple(history),
     )
 
+
 def _validate_parameter_vector(initial: ArrayLike) -> NDArray[np.float64]:
     """Return a finite one-dimensional float parameter vector."""
     try:
