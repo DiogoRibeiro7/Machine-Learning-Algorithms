@@ -4,15 +4,16 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
+from numpy.typing import NDArray
 
 from ml_algorithms.optimization import gradient_descent
 
 
 def test_gradient_descent_solves_one_dimensional_quadratic() -> None:
-    def objective(theta: np.ndarray) -> float:
+    def objective(theta: NDArray[np.float64]) -> float:
         return float((theta[0] - 3.0) ** 2)
 
-    def gradient(theta: np.ndarray) -> np.ndarray:
+    def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
         return np.array([2.0 * (theta[0] - 3.0)])
 
     result = gradient_descent(
@@ -34,11 +35,11 @@ def test_gradient_descent_solves_multivariate_quadratic() -> None:
     matrix = np.array([[4.0, 0.0], [0.0, 2.0]])
     optimum = np.array([1.5, -2.0])
 
-    def objective(theta: np.ndarray) -> float:
+    def objective(theta: NDArray[np.float64]) -> float:
         error = theta - optimum
         return float(0.5 * error @ matrix @ error)
 
-    def gradient(theta: np.ndarray) -> np.ndarray:
+    def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
         return matrix @ (theta - optimum)
 
     result = gradient_descent(
@@ -57,10 +58,10 @@ def test_gradient_descent_solves_multivariate_quadratic() -> None:
 
 
 def test_already_optimal_initial_point_converges_without_updates() -> None:
-    def objective(theta: np.ndarray) -> float:
+    def objective(theta: NDArray[np.float64]) -> float:
         return float(theta @ theta)
 
-    def gradient(theta: np.ndarray) -> np.ndarray:
+    def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
         return 2.0 * theta
 
     result = gradient_descent(objective, gradient, [0.0, 0.0])
@@ -72,10 +73,10 @@ def test_already_optimal_initial_point_converges_without_updates() -> None:
 
 
 def test_iteration_limit_is_reported() -> None:
-    def objective(theta: np.ndarray) -> float:
+    def objective(theta: NDArray[np.float64]) -> float:
         return float((theta[0] - 1.0) ** 2)
 
-    def gradient(theta: np.ndarray) -> np.ndarray:
+    def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
         return np.array([2.0 * (theta[0] - 1.0)])
 
     result = gradient_descent(
@@ -93,10 +94,10 @@ def test_iteration_limit_is_reported() -> None:
 
 
 def test_rejects_gradient_with_wrong_shape() -> None:
-    def objective(theta: np.ndarray) -> float:
+    def objective(theta: NDArray[np.float64]) -> float:
         return float(theta @ theta)
 
-    def gradient(_: np.ndarray) -> np.ndarray:
+    def gradient(_: NDArray[np.float64]) -> NDArray[np.float64]:
         return np.array([1.0, 2.0])
 
     with pytest.raises(ValueError, match="same shape"):
@@ -104,23 +105,31 @@ def test_rejects_gradient_with_wrong_shape() -> None:
 
 
 def test_rejects_non_finite_objective_and_gradient() -> None:
-    def finite_gradient(theta: np.ndarray) -> np.ndarray:
+    def non_finite_objective(_: NDArray[np.float64]) -> float:
+        return float("nan")
+
+    def finite_objective(theta: NDArray[np.float64]) -> float:
+        return float(theta @ theta)
+
+    def finite_gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
         return np.ones_like(theta)
 
+    def non_finite_gradient(_: NDArray[np.float64]) -> NDArray[np.float64]:
+        return np.array([np.inf])
+
     with pytest.raises(ValueError, match="objective"):
-        gradient_descent(lambda _: float("nan"), finite_gradient, [0.0])
+        gradient_descent(non_finite_objective, finite_gradient, [0.0])
 
     with pytest.raises(ValueError, match="gradient"):
-        gradient_descent(
-            lambda theta: float(theta @ theta),
-            lambda _: np.array([np.inf]),
-            [0.0],
-        )
+        gradient_descent(finite_objective, non_finite_gradient, [0.0])
 
 
 def test_rejects_invalid_configuration() -> None:
-    objective = lambda theta: float(theta @ theta)
-    gradient = lambda theta: 2.0 * theta
+    def objective(theta: NDArray[np.float64]) -> float:
+        return float(theta @ theta)
+
+    def gradient(theta: NDArray[np.float64]) -> NDArray[np.float64]:
+        return 2.0 * theta
 
     with pytest.raises(ValueError, match="learning_rate"):
         gradient_descent(objective, gradient, [1.0], learning_rate=0.0)
