@@ -8,7 +8,13 @@ from ml_algorithms.types import RandomState
 
 
 def resolve_random_state(random_state: RandomState) -> np.random.Generator:
-    """Return a NumPy generator for a package-level random-state value."""
+    """Resolve package random-state values to a NumPy Generator.
+
+    An integer seed creates a new generator on every call, so repeated fits
+    with the same integer restart the same random sequence. An existing
+    numpy.random.Generator is returned unchanged, so repeated use advances
+    that generator's state. None creates a fresh non-deterministic generator.
+    """
     if random_state is None:
         return np.random.default_rng()
 
