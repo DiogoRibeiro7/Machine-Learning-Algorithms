@@ -9,7 +9,10 @@ from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin, TransformerMixin
 from ml_algorithms._random import resolve_random_state
-from ml_algorithms._validation import validate_positive_integer, validate_positive_real
+from ml_algorithms._validation import (
+    validate_positive_integer,
+    validate_positive_real,
+)
 from ml_algorithms.linalg import pairwise_distances, pairwise_squared_distances
 
 
