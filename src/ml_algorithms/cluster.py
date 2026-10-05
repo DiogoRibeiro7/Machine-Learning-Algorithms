@@ -9,6 +9,7 @@ from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin, TransformerMixin
 from ml_algorithms._random import resolve_random_state
+from ml_algorithms._validation import validate_positive_integer, validate_positive_real
 from ml_algorithms.linalg import pairwise_distances, pairwise_squared_distances
 
 
@@ -38,24 +39,17 @@ class KMeans(BaseEstimator, PredictorMixin, TransformerMixin):
         tol: float = 1e-4,
         random_state: int | np.random.Generator | None = None,
     ) -> None:
-        if isinstance(n_clusters, bool) or not isinstance(n_clusters, int):
-            raise TypeError("n_clusters must be an integer.")
-        if n_clusters < 1:
-            raise ValueError("n_clusters must be at least 1.")
+        n_clusters = validate_positive_integer(n_clusters, name="n_clusters")
         if init not in {"k-means++", "random"}:
             raise ValueError('init must be "k-means++" or "random".')
-        if isinstance(max_iter, bool) or not isinstance(max_iter, int):
-            raise TypeError("max_iter must be an integer.")
-        if max_iter < 1:
-            raise ValueError("max_iter must be at least 1.")
-        if tol <= 0.0:
-            raise ValueError("tol must be positive.")
+        max_iter = validate_positive_integer(max_iter, name="max_iter")
+        tol = validate_positive_real(tol, name="tol")
 
         super().__init__()
         self.n_clusters = n_clusters
         self.init = init
         self.max_iter = max_iter
-        self.tol = float(tol)
+        self.tol = tol
         self.random_state = random_state
         self.cluster_centers_: NDArray[np.float64] | None = None
         self.labels_: NDArray[np.int64] | None = None
