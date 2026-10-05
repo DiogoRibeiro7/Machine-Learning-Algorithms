@@ -8,7 +8,11 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin
-from ml_algorithms._validation import validate_X_y
+from ml_algorithms._validation import (
+    validate_X_y,
+    validate_positive_integer,
+    validate_positive_real,
+)
 from ml_algorithms.linalg import least_squares
 
 
@@ -41,24 +45,17 @@ class LinearSVM(BaseEstimator, PredictorMixin):
         max_iter: int = 100,
         tol: float = 1e-8,
     ) -> None:
-        if isinstance(C, bool) or not isinstance(C, (int, float)):
-            raise TypeError("C must be a real number.")
-        if C <= 0.0:
-            raise ValueError("C must be positive.")
+        C = validate_positive_real(C, name="C")
         if not isinstance(fit_intercept, bool):
             raise TypeError("fit_intercept must be a boolean.")
-        if isinstance(max_iter, bool) or not isinstance(max_iter, int):
-            raise TypeError("max_iter must be an integer.")
-        if max_iter < 1:
-            raise ValueError("max_iter must be at least 1.")
-        if tol <= 0.0:
-            raise ValueError("tol must be positive.")
+        max_iter = validate_positive_integer(max_iter, name="max_iter")
+        tol = validate_positive_real(tol, name="tol")
 
         super().__init__()
-        self.C = float(C)
+        self.C = C
         self.fit_intercept = fit_intercept
         self.max_iter = max_iter
-        self.tol = float(tol)
+        self.tol = tol
         self.coef_: NDArray[np.float64] | None = None
         self.intercept_: float | None = None
         self.classes_: NDArray[Any] | None = None
