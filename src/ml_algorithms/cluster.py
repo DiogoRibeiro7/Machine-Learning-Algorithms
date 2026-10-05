@@ -110,7 +110,7 @@ class KMeans(BaseEstimator, PredictorMixin, TransformerMixin):
         features = self._validate_inference_features(X)
         if self.cluster_centers_ is None:
             raise RuntimeError("KMeans cluster centers are unavailable.")
-        return _pairwise_distances(features, self.cluster_centers_)
+        return pairwise_distances(features, self.cluster_centers_)
 
     def fit_predict(self, X: ArrayLike) -> NDArray[np.int64]:
         """Fit the model and return training-set cluster labels."""
