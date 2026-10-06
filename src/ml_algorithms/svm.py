@@ -9,9 +9,9 @@ from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, PredictorMixin
 from ml_algorithms._validation import (
-    validate_X_y,
     validate_positive_integer,
     validate_positive_real,
+    validate_X_y,
 )
 from ml_algorithms.linalg import least_squares
 
