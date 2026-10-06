@@ -23,7 +23,7 @@ def test_regression_metrics_match_hand_computed_values() -> None:
 
     assert mean_squared_error(y_true, y_pred) == pytest.approx(5.0 / 3.0)
     assert mean_absolute_error(y_true, y_pred) == pytest.approx(1.0)
-    assert r2_score(y_true, y_pred) == pytest.approx(-1.5 / 7.0)
+    assert r2_score(y_true, y_pred) == pytest.approx(-1.0 / 14.0)
 
 
 def test_r2_perfect_prediction_is_one() -> None:
