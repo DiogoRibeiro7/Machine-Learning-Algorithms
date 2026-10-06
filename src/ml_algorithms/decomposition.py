@@ -8,6 +8,7 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms._base import BaseEstimator, TransformerMixin
+from ml_algorithms._validation import validate_positive_integer
 from ml_algorithms.linalg import canonicalize_row_signs
 
 
@@ -23,10 +24,10 @@ class PCA(BaseEstimator, TransformerMixin):
 
     def __init__(self, *, n_components: int | None = None) -> None:
         if n_components is not None:
-            if isinstance(n_components, bool) or not isinstance(n_components, int):
-                raise TypeError("n_components must be an integer or None.")
-            if n_components < 1:
-                raise ValueError("n_components must be at least 1.")
+            n_components = validate_positive_integer(
+                n_components,
+                name="n_components",
+            )
 
         super().__init__()
         self.n_components = n_components

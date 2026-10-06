@@ -8,6 +8,11 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
+from ml_algorithms._validation import (
+    validate_positive_integer,
+    validate_positive_real,
+)
+
 type Objective = Callable[[NDArray[np.float64]], float]
 type Gradient = Callable[[NDArray[np.float64]], ArrayLike]
 
@@ -78,9 +83,9 @@ def gradient_descent(
     GradientDescentResult
         Final parameters together with convergence diagnostics and history.
     """
-    rate = _validate_positive_real(learning_rate, name="learning_rate")
-    tolerance = _validate_positive_real(tol, name="tol")
-    iterations = _validate_positive_integer(max_iter, name="max_iter")
+    rate = validate_positive_real(learning_rate, name="learning_rate")
+    tolerance = validate_positive_real(tol, name="tol")
+    iterations = validate_positive_integer(max_iter, name="max_iter")
     parameters = _validate_parameter_vector(initial)
 
     history: list[OptimizationStep] = []
@@ -164,10 +169,10 @@ def adagrad(
         Final parameters, adaptive accumulator, convergence diagnostics,
         and immutable iteration history.
     """
-    rate = _validate_positive_real(learning_rate, name="learning_rate")
-    stabilizer = _validate_positive_real(epsilon, name="epsilon")
-    tolerance = _validate_positive_real(tol, name="tol")
-    iterations = _validate_positive_integer(max_iter, name="max_iter")
+    rate = validate_positive_real(learning_rate, name="learning_rate")
+    stabilizer = validate_positive_real(epsilon, name="epsilon")
+    tolerance = validate_positive_real(tol, name="tol")
+    iterations = validate_positive_integer(max_iter, name="max_iter")
     parameters = _validate_parameter_vector(initial)
 
     history: list[OptimizationStep] = []
@@ -264,25 +269,6 @@ def _evaluate_gradient(
         raise ValueError("gradient must have the same shape as the parameters.")
     if not bool(np.isfinite(value).all()):
         raise ValueError("gradient must contain only finite values.")
-    return value
-
-
-def _validate_positive_real(value: float, *, name: str) -> float:
-    """Validate a positive finite real hyperparameter."""
-    if isinstance(value, bool) or not isinstance(value, (int, float)):
-        raise TypeError(f"{name} must be a real number.")
-    result = float(value)
-    if not np.isfinite(result) or result <= 0.0:
-        raise ValueError(f"{name} must be positive and finite.")
-    return result
-
-
-def _validate_positive_integer(value: int, *, name: str) -> int:
-    """Validate a strictly positive integer hyperparameter."""
-    if isinstance(value, bool) or not isinstance(value, int):
-        raise TypeError(f"{name} must be an integer.")
-    if value < 1:
-        raise ValueError(f"{name} must be at least 1.")
     return value
 
 

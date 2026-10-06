@@ -42,7 +42,7 @@ Each implementation should include:
 - [x] Gradient descent utilities
 - [x] Adaptive optimization, including AdaGrad
 - [x] Stable linear algebra helpers
-- [ ] Input validation and deterministic random-state handling
+- [x] Input validation and deterministic random-state handling
 - [ ] Common metrics
 
 ## Phase 4 — Documentation

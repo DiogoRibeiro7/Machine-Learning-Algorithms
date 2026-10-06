@@ -2,15 +2,35 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from typing import Self
 
 import numpy as np
 import pytest
 from numpy.typing import ArrayLike, NDArray
 
-from ml_algorithms import BaseEstimator, NotFittedError, PredictorMixin
+from ml_algorithms import (
+    PCA,
+    BaseEstimator,
+    GaussianNB,
+    KMeans,
+    KNeighborsClassifier,
+    LinearRegression,
+    LinearSVM,
+    LogisticRegression,
+    NotFittedError,
+    PredictorMixin,
+)
 from ml_algorithms._random import resolve_random_state
-from ml_algorithms._validation import validate_features, validate_X_y
+from ml_algorithms._validation import (
+    validate_features,
+    validate_non_negative_real,
+    validate_positive_integer,
+    validate_positive_real,
+    validate_X_y,
+)
+
+type EstimatorFactory = Callable[[], BaseEstimator]
 
 
 class MeanRegressor(BaseEstimator, PredictorMixin):
@@ -61,6 +81,50 @@ def test_prediction_checks_feature_count() -> None:
         estimator.predict([[1.0]])
 
 
+@pytest.mark.parametrize(
+    "factory",
+    [
+        LinearRegression,
+        LogisticRegression,
+        KNeighborsClassifier,
+        GaussianNB,
+        lambda: KMeans(n_clusters=1, random_state=0),
+        lambda: PCA(n_components=1),
+        LinearSVM,
+    ],
+)
+def test_all_estimators_reject_non_finite_features(
+    factory: EstimatorFactory,
+) -> None:
+    estimator = factory()
+    X = [[0.0], [np.nan]]
+
+    with pytest.raises(ValueError, match="finite"):
+        if isinstance(estimator, (KMeans, PCA)):
+            estimator.fit(X)
+        else:
+            estimator.fit(X, [0, 1])
+
+
+@pytest.mark.parametrize(
+    "factory",
+    [
+        LinearRegression,
+        LogisticRegression,
+        KNeighborsClassifier,
+        GaussianNB,
+        LinearSVM,
+    ],
+)
+def test_supervised_estimators_reject_non_finite_numeric_targets(
+    factory: EstimatorFactory,
+) -> None:
+    estimator = factory()
+
+    with pytest.raises(ValueError, match="Numeric y"):
+        estimator.fit([[0.0], [1.0]], [0.0, np.inf])
+
+
 def test_validate_features_rejects_non_finite_values() -> None:
     with pytest.raises(ValueError, match="finite"):
         validate_features([[1.0, np.nan]])
@@ -71,6 +135,40 @@ def test_validate_X_y_rejects_inconsistent_sample_counts() -> None:
         validate_X_y([[1.0], [2.0]], [1.0])
 
 
+def test_scalar_validators_reject_booleans() -> None:
+    with pytest.raises(TypeError, match="real number"):
+        validate_positive_real(True, name="value")
+    with pytest.raises(TypeError, match="real number"):
+        validate_non_negative_real(False, name="value")
+    with pytest.raises(TypeError, match="integer"):
+        validate_positive_integer(True, name="value")
+
+
+@pytest.mark.parametrize(
+    ("constructor", "kwargs"),
+    [
+        (LogisticRegression, {"l2": True}),
+        (LogisticRegression, {"max_iter": True}),
+        (LogisticRegression, {"tol": True}),
+        (KNeighborsClassifier, {"n_neighbors": True}),
+        (GaussianNB, {"var_smoothing": True}),
+        (KMeans, {"n_clusters": True}),
+        (KMeans, {"max_iter": True}),
+        (KMeans, {"tol": True}),
+        (PCA, {"n_components": True}),
+        (LinearSVM, {"C": True}),
+        (LinearSVM, {"max_iter": True}),
+        (LinearSVM, {"tol": True}),
+    ],
+)
+def test_estimator_numeric_hyperparameters_reject_booleans(
+    constructor: Callable[..., object],
+    kwargs: dict[str, object],
+) -> None:
+    with pytest.raises(TypeError):
+        constructor(**kwargs)
+
+
 def test_integer_random_state_is_reproducible() -> None:
     first = resolve_random_state(42).normal(size=5)
     second = resolve_random_state(42).normal(size=5)
@@ -78,12 +176,53 @@ def test_integer_random_state_is_reproducible() -> None:
     np.testing.assert_array_equal(first, second)
 
 
-def test_existing_generator_is_reused() -> None:
+def test_existing_generator_is_reused_and_stateful() -> None:
     generator = np.random.default_rng(42)
+    resolved = resolve_random_state(generator)
 
-    assert resolve_random_state(generator) is generator
+    assert resolved is generator
+    first = resolved.normal(size=3)
+    second = resolve_random_state(generator).normal(size=3)
+    assert not np.array_equal(first, second)
+
+
+def test_none_random_state_returns_generator() -> None:
+    assert isinstance(resolve_random_state(None), np.random.Generator)
 
 
 def test_boolean_random_state_is_rejected() -> None:
     with pytest.raises(TypeError, match="boolean"):
         resolve_random_state(True)
+
+
+def test_kmeans_integer_seed_restarts_initialization() -> None:
+    X = np.arange(20, dtype=np.float64).reshape(10, 2)
+
+    first = KMeans(n_clusters=3, random_state=7).fit(X)
+    second = KMeans(n_clusters=3, random_state=7).fit(X)
+
+    assert first.cluster_centers_ is not None
+    assert second.cluster_centers_ is not None
+    assert bool(np.array_equal(first.cluster_centers_, second.cluster_centers_))
+
+
+def test_kmeans_generator_advances_between_fits() -> None:
+    rng = np.random.default_rng(7)
+    X = np.arange(40, dtype=np.float64).reshape(20, 2)
+
+    first = KMeans(
+        n_clusters=4,
+        init="random",
+        random_state=rng,
+        max_iter=1,
+    ).fit(X)
+    second = KMeans(
+        n_clusters=4,
+        init="random",
+        random_state=rng,
+        max_iter=1,
+    ).fit(X)
+
+    assert first.cluster_centers_ is not None
+    assert second.cluster_centers_ is not None
+    assert not np.array_equal(first.cluster_centers_, second.cluster_centers_)

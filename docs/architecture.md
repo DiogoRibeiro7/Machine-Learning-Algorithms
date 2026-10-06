@@ -35,11 +35,11 @@ This is intentionally smaller than scikit-learn's estimator protocol. The reposi
 
 ### Validation
 
-`_validation.py` normalizes numeric feature matrices, rejects malformed or non-finite input, and checks supervised sample counts.
+`_validation.py` normalizes numeric feature matrices, rejects malformed or non-finite input, checks supervised sample counts, validates finite numeric targets, and centralizes scalar hyperparameter rules.
 
 ### Random state
 
-`_random.py` accepts an integer seed, an existing NumPy `Generator`, or `None`. Integer seeds create reproducible independent generators.
+`_random.py` accepts an integer seed, an existing NumPy `Generator`, or `None`. Integer seeds restart a reproducible sequence on each resolution; supplied generators are reused by identity and therefore advance state across calls.
 
 ### Error state
 

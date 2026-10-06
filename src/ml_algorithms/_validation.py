@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import numbers
+
 import numpy as np
 from numpy.typing import ArrayLike
 
@@ -59,6 +61,11 @@ def validate_target(y: ArrayLike, *, n_samples: int | None = None) -> TargetVect
             f"{n_samples} and {array.shape[0]}."
         )
 
+    if np.issubdtype(array.dtype, np.number):
+        numeric = np.asarray(array, dtype=np.float64)
+        if not bool(np.isfinite(numeric).all()):
+            raise ValueError("Numeric y must contain only finite values.")
+
     return array
 
 
@@ -69,4 +76,44 @@ def validate_X_y(X: ArrayLike, y: ArrayLike) -> tuple[FeatureMatrix, TargetVecto
     return features, target
 
 
-__all__ = ["validate_X_y", "validate_features", "validate_target"]
+def validate_positive_real(value: object, *, name: str) -> float:
+    """Validate a strictly positive finite real hyperparameter."""
+    if isinstance(value, bool) or not isinstance(value, numbers.Real):
+        raise TypeError(f"{name} must be a real number.")
+
+    result = float(value)
+    if not np.isfinite(result) or result <= 0.0:
+        raise ValueError(f"{name} must be positive and finite.")
+    return result
+
+
+def validate_non_negative_real(value: object, *, name: str) -> float:
+    """Validate a non-negative finite real hyperparameter."""
+    if isinstance(value, bool) or not isinstance(value, numbers.Real):
+        raise TypeError(f"{name} must be a real number.")
+
+    result = float(value)
+    if not np.isfinite(result) or result < 0.0:
+        raise ValueError(f"{name} must be non-negative and finite.")
+    return result
+
+
+def validate_positive_integer(value: object, *, name: str) -> int:
+    """Validate a strictly positive integer hyperparameter."""
+    if isinstance(value, bool) or not isinstance(value, numbers.Integral):
+        raise TypeError(f"{name} must be an integer.")
+
+    result = int(value)
+    if result < 1:
+        raise ValueError(f"{name} must be at least 1.")
+    return result
+
+
+__all__ = [
+    "validate_X_y",
+    "validate_features",
+    "validate_non_negative_real",
+    "validate_positive_integer",
+    "validate_positive_real",
+    "validate_target",
+]
