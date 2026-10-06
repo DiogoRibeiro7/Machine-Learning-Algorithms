@@ -54,6 +54,7 @@ nav:
       - AdaGrad: numerics/adagrad.md
       - Stable linear algebra: numerics/linear-algebra.md
       - Validation and random state: numerics/validation-random-state.md
+      - Common metrics: numerics/metrics.md
   - Architecture: architecture.md
   - Examples: examples.md
   - API reference: api-reference.md

@@ -53,6 +53,10 @@ Calling an inference method before fitting raises `NotFittedError`.
 
 `linalg.py` centralizes only repeated numerical contracts: least-squares solves with diagnostics, pairwise Euclidean distances, and deterministic sign orientation for decomposition vectors. Algorithm-specific matrix constructions remain in their estimators.
 
+### Metrics
+
+`metrics.py` provides a small NumPy-only set of regression and classification measures for examples, tests, and benchmarks. Degenerate behavior such as constant-target R² and binary probability clipping is explicit rather than inherited from an external library.
+
 ## Algorithm modules
 
 | Module | Main estimator |

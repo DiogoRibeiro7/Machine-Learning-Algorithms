@@ -43,7 +43,7 @@ Each implementation should include:
 - [x] Adaptive optimization, including AdaGrad
 - [x] Stable linear algebra helpers
 - [x] Input validation and deterministic random-state handling
-- [ ] Common metrics
+- [x] Common metrics
 
 ## Phase 4 — Documentation
 

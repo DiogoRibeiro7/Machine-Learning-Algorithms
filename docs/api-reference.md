@@ -54,6 +54,20 @@ The public package surface is intentionally small.
 
 ::: ml_algorithms.linalg.canonicalize_row_signs
 
+## Metrics
+
+::: ml_algorithms.metrics.mean_squared_error
+
+::: ml_algorithms.metrics.mean_absolute_error
+
+::: ml_algorithms.metrics.r2_score
+
+::: ml_algorithms.metrics.accuracy_score
+
+::: ml_algorithms.metrics.binary_log_loss
+
+::: ml_algorithms.metrics.confusion_matrix
+
 ## Common estimator contracts
 
 ::: ml_algorithms.BaseEstimator
