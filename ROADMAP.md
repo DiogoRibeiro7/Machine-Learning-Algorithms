@@ -56,7 +56,7 @@ Each implementation should include:
 
 ## Phase 5 — Quality and releases
 
-- [ ] Property-based and regression tests where useful
+- [x] Property-based and regression tests where useful
 - [ ] Coverage reporting
 - [ ] Benchmark suite
 - [ ] Changelog and semantic versioning
