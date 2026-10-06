@@ -10,6 +10,7 @@ import pytest
 from numpy.typing import ArrayLike, NDArray
 
 from ml_algorithms import (
+    PCA,
     BaseEstimator,
     GaussianNB,
     KMeans,
@@ -18,16 +19,15 @@ from ml_algorithms import (
     LinearSVM,
     LogisticRegression,
     NotFittedError,
-    PCA,
     PredictorMixin,
 )
 from ml_algorithms._random import resolve_random_state
 from ml_algorithms._validation import (
-    validate_X_y,
     validate_features,
     validate_non_negative_real,
     validate_positive_integer,
     validate_positive_real,
+    validate_X_y,
 )
 
 type EstimatorFactory = Callable[[], BaseEstimator]
