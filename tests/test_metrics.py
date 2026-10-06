@@ -58,7 +58,7 @@ def test_binary_log_loss_validates_inputs() -> None:
         binary_log_loss([0, 2], [0.2, 0.8])
     with pytest.raises(ValueError, match="between 0 and 1"):
         binary_log_loss([0, 1], [-0.1, 1.1])
-    with pytest.raises(ValueError, match="smaller than 0.5"):
+    with pytest.raises(ValueError, match=r"smaller than 0\.5"):
         binary_log_loss([0, 1], [0.2, 0.8], epsilon=0.5)
 
 
