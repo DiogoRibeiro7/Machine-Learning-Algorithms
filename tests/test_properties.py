@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from hypothesis import given, settings, strategies as st
 import numpy as np
 import pytest
-from hypothesis import given, settings, strategies as st
+from numpy.typing import NDArray
 
 from ml_algorithms import KMeans, LinearRegression, LogisticRegression, PCA
 from ml_algorithms._validation import validate_features
@@ -27,7 +28,7 @@ def full_rank_matrix(
     max_samples: int = 8,
     min_features: int = 1,
     max_features: int = 4,
-) -> np.ndarray:
+) -> NDArray[np.float64]:
     n_samples = draw(st.integers(min_value=min_samples, max_value=max_samples))
     n_features = draw(
         st.integers(
@@ -78,7 +79,7 @@ def test_logistic_probabilities_sum_to_one(values: list[float]) -> None:
 
 @given(full_rank_matrix())
 @settings(max_examples=25, deadline=None)
-def test_pca_full_components_reconstruct_input(X: np.ndarray) -> None:
+def test_pca_full_components_reconstruct_input(X: NDArray[np.float64]) -> None:
     model = PCA().fit(X)
     reconstructed = model.inverse_transform(model.transform(X))
 
@@ -88,7 +89,7 @@ def test_pca_full_components_reconstruct_input(X: np.ndarray) -> None:
 @given(full_rank_matrix(min_samples=3, max_samples=10))
 @settings(max_examples=25, deadline=None)
 def test_kmeans_inertia_is_non_negative_and_seeded_fit_is_deterministic(
-    X: np.ndarray,
+    X: NDArray[np.float64],
 ) -> None:
     n_clusters = min(3, X.shape[0])
     first = KMeans(n_clusters=n_clusters, random_state=11).fit(X)
@@ -119,7 +120,7 @@ def test_kmeans_inertia_is_non_negative_and_seeded_fit_is_deterministic(
 )
 @settings(max_examples=20, deadline=None)
 def test_linear_regression_prediction_shape_matches_query_rows(
-    X: np.ndarray,
+    X: NDArray[np.float64],
     target_values: list[float],
 ) -> None:
     y = np.asarray(target_values[: X.shape[0]], dtype=np.float64)
@@ -135,7 +136,7 @@ def test_linear_regression_prediction_shape_matches_query_rows(
 
 @given(full_rank_matrix(min_samples=2, max_samples=6))
 @settings(max_examples=20, deadline=None)
-def test_refit_replaces_linear_regression_feature_contract(X: np.ndarray) -> None:
+def test_refit_replaces_linear_regression_feature_contract(X: NDArray[np.float64]) -> None:
     first_features = X.shape[1]
     y = np.arange(X.shape[0], dtype=np.float64)
     model = LinearRegression().fit(X, y)
