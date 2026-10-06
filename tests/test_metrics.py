@@ -36,7 +36,9 @@ def test_r2_constant_target_has_explicit_degenerate_behavior() -> None:
 
 
 def test_accuracy_supports_arbitrary_labels() -> None:
-    assert accuracy_score(["cat", "dog", "dog"], ["cat", "cat", "dog"]) == pytest.approx(2 / 3)
+    assert accuracy_score(
+        ["cat", "dog", "dog"], ["cat", "cat", "dog"]
+    ) == pytest.approx(2 / 3)
 
 
 def test_binary_log_loss_matches_hand_computed_value() -> None:
