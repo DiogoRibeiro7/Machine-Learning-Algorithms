@@ -35,6 +35,16 @@ The Python 3.12 coverage job runs the full test suite with `pytest-cov`, prints 
 
 The measured baseline for the current suite is 93% statement coverage (1,060 statements, 76 missed). The initial project-wide floor is 92%, one percentage point below that observed baseline. No source exclusions are configured.
 
+## Benchmarks
+
+The benchmark suite lives in `benchmarks/` and is run explicitly rather than as a timing gate in CI:
+
+```bash
+poetry run python -m benchmarks.run_benchmarks
+```
+
+Use `--output benchmark-results.csv` to save the deterministic report schema for later comparison. CI smoke-tests the benchmark harness but does not fail based on elapsed-time thresholds.
+
 ## Documentation
 
 MkDocs builds with `strict: true`. Broken links, invalid navigation, or documentation warnings should fail CI rather than silently reaching GitHub Pages.
