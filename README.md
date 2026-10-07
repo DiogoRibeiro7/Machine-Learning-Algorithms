@@ -112,7 +112,7 @@ poetry run mkdocs build --strict
 
 CI runs tests on Python 3.12, 3.13, and 3.14.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow and expectations for new algorithm implementations.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow and expectations for new algorithm implementations. Release history is tracked in [CHANGELOG.md](CHANGELOG.md).
 
 ## Documentation
 
