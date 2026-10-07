@@ -62,6 +62,7 @@ nav:
       - Contributing: development/contributing.md
       - Quality checks: development/quality.md
       - Benchmarks: development/benchmarks.md
+      - Releases and versioning: development/releases.md
   - Roadmap: roadmap.md
 
 plugins:
