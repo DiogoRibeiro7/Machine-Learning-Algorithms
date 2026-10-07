@@ -136,7 +136,9 @@ def test_linear_regression_prediction_shape_matches_query_rows(
 
 @given(full_rank_matrix(min_samples=2, max_samples=6))
 @settings(max_examples=20, deadline=None)
-def test_refit_replaces_linear_regression_feature_contract(X: NDArray[np.float64]) -> None:
+def test_refit_replaces_linear_regression_feature_contract(
+    X: NDArray[np.float64],
+) -> None:
     first_features = X.shape[1]
     y = np.arange(X.shape[0], dtype=np.float64)
     model = LinearRegression().fit(X, y)
