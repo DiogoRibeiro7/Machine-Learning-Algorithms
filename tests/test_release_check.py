@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from scripts.check_release import validate_release
 
 
@@ -66,7 +65,7 @@ def test_release_requires_dated_changelog_heading(tmp_path: Path) -> None:
 def test_release_tag_must_use_v_semver_form(tmp_path: Path) -> None:
     pyproject, changelog = _write_release_files(tmp_path)
 
-    with pytest.raises(ValueError, match="vMAJOR.MINOR.PATCH"):
+    with pytest.raises(ValueError, match=r"vMAJOR\.MINOR\.PATCH"):
         validate_release(
             "1.2.3",
             pyproject_path=pyproject,
