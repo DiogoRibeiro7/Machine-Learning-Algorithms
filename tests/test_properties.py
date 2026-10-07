@@ -11,7 +11,6 @@ from numpy.typing import NDArray
 from ml_algorithms import PCA, KMeans, LinearRegression, LogisticRegression
 from ml_algorithms._validation import validate_features
 
-
 FINITE_FLOAT = st.floats(
     min_value=-10.0,
     max_value=10.0,
