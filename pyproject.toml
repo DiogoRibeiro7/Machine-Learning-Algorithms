@@ -44,6 +44,7 @@ pytest = ">=8.0"
 ruff = ">=0.16"
 mypy = ">=1.13"
 pre-commit = ">=4.6"
+hypothesis = ">=6.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs-material = ">=9.6"
