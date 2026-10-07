@@ -58,7 +58,7 @@ Each implementation should include:
 
 - [x] Property-based and regression tests where useful
 - [x] Coverage reporting
-- [ ] Benchmark suite
+- [x] Benchmark suite
 - [ ] Changelog and semantic versioning
 - [ ] First modern release
 
