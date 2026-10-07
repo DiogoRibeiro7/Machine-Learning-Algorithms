@@ -20,9 +20,9 @@ Use a focused branch and open a pull request against the default development bra
 Before opening or updating a pull request, run:
 
 ```bash
-poetry run ruff check src tests
-poetry run ruff format --check src tests
-poetry run mypy src tests
+poetry run ruff check src tests benchmarks scripts
+poetry run ruff format --check src tests benchmarks scripts
+poetry run mypy
 poetry run pytest
 poetry run mkdocs build --strict
 ```
@@ -48,6 +48,18 @@ Do not hide numerical trade-offs. If an implementation uses regularization, vari
 ## Legacy notebooks
 
 Historical notebooks under `notebooks/legacy/` are retained for provenance. New functionality should not be implemented there.
+
+## Releases
+
+The release process is documented in [the release and versioning guide](https://diogoribeiro7.github.io/Machine-Learning-Algorithms/development/releases/).
+
+Release preparation must keep `pyproject.toml`, the Git tag, and `CHANGELOG.md` aligned. Before tagging a version, validate the metadata locally:
+
+```bash
+poetry run python scripts/check_release.py --tag vX.Y.Z
+```
+
+Breaking API or numerical-contract changes must be recorded explicitly in the changelog and release notes.
 
 ## Pull requests
 
