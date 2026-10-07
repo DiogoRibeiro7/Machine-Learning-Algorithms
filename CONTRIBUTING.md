@@ -51,7 +51,7 @@ Historical notebooks under `notebooks/legacy/` are retained for provenance. New 
 
 ## Releases
 
-The release process is documented in [docs/development/releases.md](docs/development/releases.md).
+The release process is documented in [the release and versioning guide](https://diogoribeiro7.github.io/Machine-Learning-Algorithms/development/releases/).
 
 Release preparation must keep `pyproject.toml`, the Git tag, and `CHANGELOG.md` aligned. Before tagging a version, validate the metadata locally:
 
