@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from hypothesis import given, settings, strategies as st
 import numpy as np
 import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from numpy.typing import NDArray
 
-from ml_algorithms import KMeans, LinearRegression, LogisticRegression, PCA
+from ml_algorithms import PCA, KMeans, LinearRegression, LogisticRegression
 from ml_algorithms._validation import validate_features
 
 
