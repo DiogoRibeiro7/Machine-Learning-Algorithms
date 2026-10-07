@@ -69,6 +69,36 @@ jobs:
       - name: Build documentation
         run: mkdocs build --strict
 
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install package and coverage dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . "pytest>=8.0" "hypothesis>=6.0" "pytest-cov>=7.0"
+
+      - name: Run coverage
+        run: pytest --cov=ml_algorithms --cov-report=term-missing --cov-report=xml:coverage.xml
+
+      - name: Upload coverage XML
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+          if-no-files-found: error
+
   tests:
     name: Tests (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
