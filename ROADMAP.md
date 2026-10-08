@@ -60,7 +60,7 @@ Each implementation should include:
 - [x] Coverage reporting
 - [x] Benchmark suite
 - [x] Changelog and semantic versioning
-- [ ] First modern release
+- [x] First modern release
 
 ## Out of scope
 
