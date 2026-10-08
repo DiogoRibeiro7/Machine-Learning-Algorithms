@@ -59,3 +59,29 @@ Do not compare absolute timings from different machines as if they were directly
 - whether numerical quality remains stable while dimensions change.
 
 The benchmark suite is intentionally excluded from pass/fail CI timing gates. CI only smoke-tests the benchmark plumbing so that imports, generated data, and estimator calls do not silently break.
+
+
+## v0.1.0 reference baseline
+
+The first modern release records one reference point from the default benchmark suite at **500 training samples and 8 features**.
+
+Environment:
+
+- GitHub Actions `ubuntu-latest`;
+- Python 3.12.14;
+- NumPy 2.5.3;
+- seed 42;
+- 128 evaluation samples;
+- median of 3 timing repetitions.
+
+| Estimator | Fit (ms) | Inference / transform (ms) | Quality |
+| --- | ---: | ---: | ---: |
+| Linear regression | 0.116 | 0.006 | R² = 0.9986 |
+| Logistic regression | 0.899 | 0.037 | accuracy = 0.9062 |
+| k-nearest neighbours | 0.042 | 7.960 | accuracy = 0.8359 |
+| Gaussian Naive Bayes | 0.153 | 0.038 | accuracy = 0.8594 |
+| k-means | 0.499 | 0.024 | inertia/element = 0.2489 |
+| PCA | 0.114 | 0.007 | reconstruction MSE = 0.0010 |
+| Linear SVM | 0.614 | 0.015 | accuracy = 0.8906 |
+
+These timings are a release reference, not a performance contract. Future comparisons should use the same benchmark configuration and a comparable execution environment.
