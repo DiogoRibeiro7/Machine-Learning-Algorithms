@@ -1,0 +1,35 @@
+name: Release benchmark baseline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark-baseline:
+    if: github.head_ref == 'release/v0.1.0'
+    name: Measure v0.1.0 benchmark baseline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Run benchmark baseline
+        run: |
+          python -m benchmarks.run_benchmarks --output benchmark-v0.1.0.csv
+          echo "=== CSV ==="
+          cat benchmark-v0.1.0.csv
