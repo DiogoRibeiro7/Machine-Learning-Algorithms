@@ -1,0 +1,7 @@
+Tool: built-in image generation
+
+Use case: logo-brand.
+Asset type: square README project logo for Machine-Learning-Algorithms.
+Project purpose: Simple implementations of machine-learning algorithms using only NumPy, with visualizations.
+Design direction: A compact tangram-like decision tree assembled from black squares, vermilion triangles, and lemon circles, with visible logical branching and a few tiny input dots. Bauhaus educational-poster graphic on light grey, purely flat geometry, a clever asymmetrical balance, broad readable shapes.
+Composition: create one finished square artwork with a strong silhouette, readable at 160 pixels, and comfortable margins. This is the logo itself, not a presentation or product mockup. No text, words, letters, numbers, captions or watermark anywhere in the image. Do not use a generic navy-and-gold metallic badge.

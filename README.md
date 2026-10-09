@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/project-logo.png" alt="Machine-Learning-Algorithms project logo" width="160" height="160">
+</p>
+
 # Machine Learning Algorithms
 
 [![CI](https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoRibeiro7/Machine-Learning-Algorithms/actions/workflows/ci.yml)
